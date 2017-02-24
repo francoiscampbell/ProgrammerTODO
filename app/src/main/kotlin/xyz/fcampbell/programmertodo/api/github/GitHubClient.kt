@@ -18,11 +18,6 @@ class GitHubClient(
     val isLoggedIn = cache.get() != null
 
     fun login(username: String, password: String, otp: String?, tokenRequest: TokenRequest): Observable<Client.Token> {
-        val cachedToken = cache.get()
-        if (cachedToken != null) {
-            return Observable.just(cachedToken)
-        }
-
         return gitHubApi.getToken(Credentials.basic(username, password), otp, tokenRequest)
                 .map { Client.Token(it.token, it.scopes) }
                 .onErrorResumeNext { error: Throwable ->
