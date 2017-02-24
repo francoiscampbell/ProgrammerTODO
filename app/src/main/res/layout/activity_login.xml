@@ -57,10 +57,11 @@
                 android:imeActionId="@+id/login"
                 android:imeOptions="actionUnspecified"
                 android:inputType="number"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:visibility="gone"/>
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/sign_in_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

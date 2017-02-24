@@ -1,21 +1,18 @@
 package xyz.fcampbell.programmertodo.auth
 
-import io.reactivex.Observable
+import android.preference.PreferenceManager
+import xyz.fcampbell.programmertodo.ProgrammerTodo
 
 /**
  * Created by francois on 2017-02-24.
  */
 abstract class Authenticator {
-//    protected abstract val authCache: Cache
+    protected val cache = TokenCache(
+            PreferenceManager.getDefaultSharedPreferences(ProgrammerTodo.application),
+            ProgrammerTodo.gson,
+            javaClass.simpleName) //todo dagger
 
-    abstract fun login(username: String, password: String, otp: String): Observable<Token>
-
-//    fun logout(): Completable = authCache.deleteCachedToken()
+    fun logout() = cache.delete()
 
     data class Token(val token: String, val scopes: List<String>)
-
-//    interface Cache {
-//        fun getCachedToken() : Observable<Token>
-//        fun deleteCachedToken() : Completable
-//    }
 }
