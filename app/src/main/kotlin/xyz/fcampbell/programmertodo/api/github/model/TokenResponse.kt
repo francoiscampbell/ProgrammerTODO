@@ -1,6 +1,5 @@
 package xyz.fcampbell.programmertodo.api.github.model
 
-import com.google.gson.annotations.SerializedName
 import java.util.*
 
 /**
@@ -11,12 +10,12 @@ data class TokenResponse(
         val url: String,
         val app: ClientApp,
         val token: String,
-        @SerializedName("hashed_token") val hashedToken: String,
-        @SerializedName("token_last_eight") val tokenLastEight: String,
+        val hashed_token: String,
+        val token_last_eight: String,
         val note: String,
-        @SerializedName("note_url") val noteUrl: String,
-        @SerializedName("created_at") val createdAt: Date,
-        @SerializedName("updated_at") val updatedAt: Date,
+        val note_url: String,
+        val created_at: Date,
+        val updated_at: Date,
         val scopes: List<String>,
         val fingerprint: String
 )

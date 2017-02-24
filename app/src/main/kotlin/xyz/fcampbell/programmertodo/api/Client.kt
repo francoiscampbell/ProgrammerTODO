@@ -1,16 +1,19 @@
-package xyz.fcampbell.programmertodo.auth
+package xyz.fcampbell.programmertodo.api
 
 import android.preference.PreferenceManager
 import xyz.fcampbell.programmertodo.ProgrammerTodo
+import xyz.fcampbell.programmertodo.auth.TokenCache
 
 /**
  * Created by francois on 2017-02-24.
  */
-abstract class Authenticator {
+abstract class Client(
+        service: TokenCache.Service
+) {
     protected val cache = TokenCache(
             PreferenceManager.getDefaultSharedPreferences(ProgrammerTodo.application),
             ProgrammerTodo.gson,
-            javaClass.simpleName) //todo dagger
+            service) //todo dagger
 
     fun logout() = cache.delete()
 

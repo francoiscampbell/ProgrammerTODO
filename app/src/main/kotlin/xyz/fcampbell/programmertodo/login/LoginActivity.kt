@@ -8,16 +8,19 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import xyz.fcampbell.programmertodo.R
 import xyz.fcampbell.programmertodo.api.github.model.TokenRequest
+import xyz.fcampbell.programmertodo.repo.RepoListActivity
 
 class LoginActivity : AppCompatActivity(), LoginPresenter.View {
     companion object {
         const val TAG = "LoginActivity"
     }
 
-    private val presenter = LoginPresenter().apply { attach(this@LoginActivity) } //todo dagger
+    private val presenter = LoginPresenter() //todo dagger
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        presenter.attach(this)
         setContentView(R.layout.activity_login)
 
         sign_in_button.setOnClickListener {
@@ -44,11 +47,12 @@ class LoginActivity : AppCompatActivity(), LoginPresenter.View {
         otp.animate().scaleY(1f).duration = 300
     }
 
-    override fun onLoginSuccess() {
-        Log.d(LoginActivity.TAG, "onLoginSuccess")
-    }
-
     override fun onLoginError(throwable: Throwable) {
         Log.d(TAG, "onLoginError: $throwable")
+    }
+
+    override fun onLoginSuccess() {
+        Log.d(LoginActivity.TAG, "onLoginSuccess")
+        RepoListActivity.transitionTo(this)
     }
 }

@@ -1,4 +1,4 @@
-package xyz.fcampbell.programmertodo.login
+package xyz.fcampbell.programmertodo.repo
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import retrofit2.Retrofit
@@ -7,14 +7,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import xyz.fcampbell.programmertodo.ProgrammerTodo
 import xyz.fcampbell.programmertodo.api.github.GitHubApi
 import xyz.fcampbell.programmertodo.api.github.GitHubClient
-import xyz.fcampbell.programmertodo.api.github.model.TokenRequest
-import xyz.fcampbell.programmertodo.auth.exception.OtpRequiredException
+import xyz.fcampbell.programmertodo.api.github.model.Repo
 
 /**
  * Created by francois on 2017-02-24.
  */
-class LoginPresenter {
-    lateinit var view: View
+class RepoListPresenter {
+    private lateinit var view: View
 
     private val gson = ProgrammerTodo.gson
     private val gitHubApi by lazy {
@@ -28,30 +27,23 @@ class LoginPresenter {
     private val gitHubClient by lazy { GitHubClient(gitHubApi) }//todo dagger
 
     fun attach(view: View) {
-        if (gitHubClient.isLoggedIn) view.onLoginSuccess()
-
         this.view = view
     }
 
-    fun login(username: String, password: String, tokenRequest: TokenRequest, otp: String = "") {
-        view.onLoginStart()
-        gitHubClient.login(username, password, otp, tokenRequest)
+    fun getRepos() {
+        view.onRepoLoadStart()
+        gitHubClient.getMyRepos()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    view.onLoginSuccess()
+                    view.onRepoLoadComplete(it)
                 }, {
-                    if (it is OtpRequiredException) {
-                        view.showOtpField()
-                    } else {
-                        view.onLoginError(it)
-                    }
+                    view.onRepoLoadError(it)
                 })
     }
 
     interface View {
-        fun onLoginStart()
-        fun showOtpField()
-        fun onLoginError(throwable: Throwable)
-        fun onLoginSuccess()
+        fun onRepoLoadStart()
+        fun onRepoLoadError(throwable: Throwable)
+        fun onRepoLoadComplete(repos: List<Repo>)
     }
 }

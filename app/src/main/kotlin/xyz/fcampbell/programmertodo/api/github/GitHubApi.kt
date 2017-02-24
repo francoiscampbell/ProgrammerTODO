@@ -1,9 +1,8 @@
 package xyz.fcampbell.programmertodo.api.github
 
 import io.reactivex.Observable
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
+import xyz.fcampbell.programmertodo.api.github.model.Repo
 import xyz.fcampbell.programmertodo.api.github.model.TokenRequest
 import xyz.fcampbell.programmertodo.api.github.model.TokenResponse
 
@@ -17,10 +16,12 @@ interface GitHubApi {
 
     @POST("/authorizations")
     fun getToken(@Header("Authorization") basicCredentials: String,
+                 @Header("X-GitHub-OTP") otp: String?,
                  @Body tokenRequest: TokenRequest): Observable<TokenResponse>
 
-    @POST("/authorizations")
-    fun getToken(@Header("Authorization") basicCredentials: String,
-                 @Header("X-GitHub-OTP") otp: String,
-                 @Body tokenRequest: TokenRequest): Observable<TokenResponse>
+    @GET("/user/repos")
+    fun getMyRepos(@Query("access_token") token: String?): Observable<List<Repo>>
+
+    @GET("/users/{username}/repos")
+    fun getUserRepos(@Path("username") username: String): Observable<List<Repo>>
 }
