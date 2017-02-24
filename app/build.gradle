@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 //noinspection GroovyMissingReturnStatement
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "xyz.fcampbell.programmertodo"
         minSdkVersion 9
@@ -26,11 +27,16 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:$vAppcompat"
+    compile "io.reactivex.rxjava2:rxjava:$vRxJava2"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$vKotlin"
+    compile "com.squareup.retrofit2:retrofit:$vRetrofit"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$vRetrofit"
+    compile "com.squareup.retrofit2:converter-gson:$vRetrofit"
 
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     testCompile 'junit:junit:4.12'
 }
