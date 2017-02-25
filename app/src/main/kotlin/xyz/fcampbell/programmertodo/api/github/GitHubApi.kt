@@ -20,7 +20,7 @@ interface GitHubApi {
                  @Body tokenRequest: TokenRequest): Observable<TokenResponse>
 
     @GET("/user/repos")
-    fun getMyRepos(@Query("access_token") token: String?): Observable<List<Repo>>
+    fun getMyRepos(): Observable<List<Repo>>
 
     @GET("/users/{username}/repos")
     fun getUserRepos(@Path("username") username: String): Observable<List<Repo>>
